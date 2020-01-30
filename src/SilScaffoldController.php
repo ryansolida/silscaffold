@@ -26,26 +26,14 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
         $model = "\\App\\".SilScaffold::getScaffoldFromSlug($slug)['model'];
         $scaffold = new SilScaffold($slug);
 
-        //remove field indexes
         $fields = SilScaffold::getFields($slug);
-        /*
-        foreach ($fields as $f){
-            if ( $f->relationship){
-                //dd($f->relationship['records']);
-            }
-        }
-        */
-        //dd($fields);
 
         if ( $id ){
             $item = $model::find($id);
         } else {
             $item = new $model;
             foreach ($fields as $f){
-                $item->{$f['name']} = '';
-                if ( $f['repeats'] ){
-                    $item->{$f['name']} = [];
-                }
+                $item->{$f->name} = '';
             }
         }
         
