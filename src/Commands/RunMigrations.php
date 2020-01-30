@@ -41,7 +41,6 @@ class RunMigrations extends Command
     {
         //
         $config = config('scaffolds');
-        
         foreach ($config as $data){
             $scaffold = new SilScaffold($data['slug']);
             Schema::dropIfExists($scaffold->table);
@@ -129,10 +128,8 @@ class RunMigrations extends Command
                     }
                 }   
             }
-            
-            exec('php artisan silscaffold:makemodels');
-
         }
+        exec('php artisan silscaffold:makemodels');
 
 
     }
