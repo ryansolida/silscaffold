@@ -7,7 +7,9 @@
             "email": "ryansolida@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "inertiajs/inertia-laravel": "^0.2.4"
+    },
     "autoload": {
         "psr-4": {
             "Sil\\Scaffold\\": "src/"
