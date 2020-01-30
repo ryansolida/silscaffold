@@ -5,6 +5,7 @@ namespace Sil\Scaffold;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use stdClass;
 
 class SilScaffoldController extends \App\Http\Controllers\Controller
 {
@@ -16,7 +17,7 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
     public function list($slug,Request $request){
         $model = SilScaffold::getModelPathFromSlug($slug);
         $items = $model::all();
-        Inertia::setRootView('silscaffold::admin');
+        
         return Inertia::render('RecordList', [
             'items'=>$items,
             'slug'=>$slug,
@@ -38,29 +39,36 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
                 $item->{$f->name} = '';
             }
         }
-        
+
+        $edit_item = new stdClass();
         foreach ($fields as $f){
+            $edit_item->{$f->name} = $item->{$f->name};
             if ( $f->relationship ){
                 if ( $f->relationship->type == 'belongsTo' ){
                     $item->{$f->name} = $item->{$f->name.'_id'};
+                    $edit_item->{$f->name} = $item->{$f->name.'_id'};
                     foreach ($f->options as $option_key=>$option_value){
                         $f->options[$option_key] = $option_value->{$f->relationship->display_field};
                     }
                 }
                 if ( $f->relationship->type == 'belongsToMany' ){
                     $item->{$f->name} = $item->{$f->name};
+                    $edit_item->{$f->name} = $item->{$f->name};
                 }
             }
 
             if ( $f->json ){
                 $item->{$f->name} = json_decode($item->{$f->name});
+                $edit_item->{$f->name} = json_decode($item->{$f->name});
+            }
+
+            if ( method_exists($item,'get'.ucfirst(\Str::camel($f->name)).'Attribute') ){
+                $edit_item->{$f->name} = $item->getAttributes()[$f->name];
             }
         }
-
         
-
         return Inertia::render('RecordView',[
-            'item'=>$item,
+            'item'=>$edit_item,
             'slug'=>$slug,
             'scaffold'=>$scaffold,
             'fields'=>$fields
