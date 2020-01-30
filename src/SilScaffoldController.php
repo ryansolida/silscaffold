@@ -9,7 +9,9 @@ use Inertia\Inertia;
 class SilScaffoldController extends \App\Http\Controllers\Controller
 {
     
-
+    function __construct(){
+        Inertia::setRootView('silscaffold::admin');
+    }
 
     public function list($slug,Request $request){
         $model = SilScaffold::getModelPathFromSlug($slug);
