@@ -1,0 +1,16 @@
+{
+    "name": "ryansolida/scaffold",
+    "description": "Scaffolding For Laravel",
+    "authors": [
+        {
+            "name": "Ryan Solida",
+            "email": "ryansolida@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Sil\\SilScaffold": "src/"
+        }
+    }
+}
