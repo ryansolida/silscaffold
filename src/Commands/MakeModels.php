@@ -87,7 +87,22 @@ class MakeModels extends Command
             $model_template_data = str_replace("GETTERS",$getters_str,$model_template_data);
             
 
-            file_put_contents(app_path().'/'.$data['model'].'.php',$model_template_data);
+            $model_file = app_path().'/'.$data['model'].'.php';
+            $custom_methods_content = '';
+            if ( file_exists($model_file) ){
+                $current_file_contents = file_get_contents($model_file);
+                $start_str = '//CUSTOM METHODS START -- DO NOT REMOVE THIS LINE';
+                $end_str = '//CUSTOM METHODS END -- DO NOT REMOVE THIS LINE';
+                $custom_methods_content = substr($current_file_contents,strpos($current_file_contents,$start_str)+strlen($start_str));
+                $custom_methods_content = substr($custom_methods_content,0,strpos($custom_methods_content,$end_str));
+                $custom_methods_content = trim($custom_methods_content);
+            }
+
+            $model_template_data_after_custom_methods = str_replace('CUSTOMMETHODS',$custom_methods_content,$model_template_data);
+
+            
+            file_put_contents($model_file,$model_template_data_after_custom_methods);
+        
         }
 
 
