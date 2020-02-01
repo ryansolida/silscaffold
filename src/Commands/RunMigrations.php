@@ -119,15 +119,15 @@ class RunMigrations extends Command
 
             //add dummy data
             if ( @$data['stub_data'] ){
-                if ( is_callable($data['stub_data']) ){
-                    $data['stub_data']();
-                } else {
-                    foreach ($data['stub_data'] as $entry){
-                        $entry['created_at'] = date("Y-m-d H:i:s");
-                        $entry['updated_at'] = date("Y-m-d H:i:s");
-                        \DB::table($data['table'])->insert($entry);
-                    }
-                }   
+                if ( is_callable($data['stub_data'],TRUE,$callable_name) ){
+                    $data['stub_data'] = $callable_name();
+                }
+
+                foreach ($data['stub_data'] as $entry){
+                    $entry['created_at'] = date("Y-m-d H:i:s");
+                    $entry['updated_at'] = date("Y-m-d H:i:s");
+                    \DB::table($data['table'])->insert($entry);
+                }
             }
             
 
