@@ -40,6 +40,8 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
             }
         }
 
+        
+
         $edit_item = new stdClass();
         foreach ($fields as $f){
             $edit_item->{$f->name} = $item->{$f->name};
@@ -57,14 +59,15 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
                 }
             }
 
-            if ( $f->json ){
-                $item->{$f->name} = json_decode($item->{$f->name});
-                $edit_item->{$f->name} = json_decode($item->{$f->name});
-            }
-
             if ( method_exists($item,'get'.ucfirst(\Str::camel($f->name)).'Attribute') ){
                 $edit_item->{$f->name} = $item->getAttributes()[$f->name];
+            } else {
+                if ( $f->json ){
+                    $edit_item->{$f->name} = json_decode($item->{$f->name});
+                }
             }
+
+            
         }
         
         return Inertia::render('RecordView',[
