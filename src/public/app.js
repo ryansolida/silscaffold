@@ -2026,9 +2026,10 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.item.id !== undefined) {
         id = this.item.id;
+        this.$inertia.post('/admin/' + this.slug + '/post/' + id, this.item);
+      } else {
+        this.$inertia.post('/admin/' + this.slug + '/post', this.item);
       }
-
-      this.$inertia.post('/admin/' + this.slug + '/post/' + id, this.item);
     }
   }
 });

@@ -52,8 +52,13 @@ export default {
             var id = '';
             if ( this.item.id !== undefined ){
                 id = this.item.id;
+                this.$inertia.post('/admin/'+this.slug+'/post/'+id, this.item)
+            } else{
+                this.$inertia.post('/admin/'+this.slug+'/post', this.item)
             }
-            this.$inertia.post('/admin/'+this.slug+'/post/'+id, this.item)
+
+            
+            
         }
     }
 }
