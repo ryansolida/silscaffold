@@ -14,7 +14,7 @@
       </div>
       <div class="w-3/4 text-right">
       <?php
-        foreach (config('scaffolds') as $datatype){
+        foreach (\Sil\Scaffold\SilScaffold::getScaffolds() as $datatype){
           $scaffold = new \Sil\Scaffold\SilScaffold($datatype['slug']);
           ?>
           <a href="/admin/{{$scaffold->slug}}" class="ml-4 font-semibold">{{$scaffold->display_name_plural}}</a>

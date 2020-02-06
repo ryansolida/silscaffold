@@ -40,7 +40,7 @@ class RunMigrations extends Command
     public function handle()
     {
         $this->call('silscaffold:makemodels');
-        $config = config('scaffolds');
+        $config = SilScaffold::getScaffolds();
         
         foreach ($config as $data){
             $scaffold = new SilScaffold($data['slug']);

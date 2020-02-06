@@ -5,6 +5,7 @@ namespace Sil\Scaffold\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Schema;
 use Sil\Scaffold\SilScaffold;
+use Sil\Scaffold\SilScaffoldRelationship;
 
 class MakeModels extends Command
 {
@@ -40,7 +41,7 @@ class MakeModels extends Command
     public function handle()
     {
         //
-        $config = config('scaffolds');
+        $config = SilScaffold::getScaffolds();
         
         foreach ($config as $model_name=>$data){
             $model_template_data = file_get_contents(__DIR__.'/../ModelTemplate.php');

@@ -45,7 +45,7 @@ class AddField extends Command
             dd("--scaffold and --field_name are required");
         }
 
-        $scaffold = config('scaffolds.'.$this->option('scaffold'));
+        $scaffold = SilScaffold::getScaffoldFromSlug($this->option('scaffold'));//config('scaffolds.'.$this->option('scaffold'));
         if ( is_null($scaffold) ){
             dd("'".$this->option('scaffold')."' is not a valid scaffold");
         }

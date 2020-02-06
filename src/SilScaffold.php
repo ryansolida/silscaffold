@@ -3,22 +3,42 @@ namespace Sil\Scaffold;
 class SilScaffold {
 
     function __construct($slug){
-        foreach (config('scaffolds.'.$slug) as $k=>$v){
+        $scaffold = $this->getScaffoldFromSlug($slug);
+        
+        foreach ($scaffold as $k=>$v){
             $this->$k = $v;
         }
+    }
 
-        if ( !property_exists($this,'display_name') ){
-            $this->display_name = $this->model;
+    public static function getScaffolds(){
+        $scaffolds = config('scaffolds');
+        foreach ($scaffolds as $key=>$scaffold){
+            if ( !@$scaffold['slug'] ){
+                $scaffolds[$key]['slug'] = $key; //default to the slug being the key
+            }
+
+            if ( !@$scaffold['table'] ){
+                $scaffolds[$key]['table'] = $key; //default to the table being the key
+            }
+
+            if ( !@$scaffold['model'] ){
+                $scaffolds[$key]['model'] = str_replace(' ','',\Str::singular(ucwords(str_replace('-',' ',$key))));
+            }
+
+            if ( !@$scaffold['display_name'] ){
+                $scaffolds[$key]['display_name'] = ucwords(str_replace('-',' ',$key));
+            }
+
+            if ( !@$scaffold['display_name_plural'] ){
+                $scaffolds[$key]['display_name_plural'] = ucwords(str_replace('-',' ',$key));
+            }
         }
-
-        if ( !property_exists($this,'display_name_plural') ){
-            $this->display_name_plural = \Str::plural($this->display_name);
-        }
-
+        return $scaffolds;
     }
 
     public static function getScaffoldFromSlug($slug){
-        foreach ( config('scaffolds') as $model_name=>$data){
+        $scaffolds = self::getScaffolds();
+        foreach ( self::getScaffolds() as $model_name=>$data){
             if ( $data['slug'] == $slug ){
                 return $data;
             }
@@ -26,12 +46,13 @@ class SilScaffold {
     }
 
     public static function getModelPathFromSlug($slug){
-        return '\\App\\'.config('scaffolds.'.$slug)['model'];
+        $scaffold = self::getScaffoldFromSlug($slug);
+        return '\\App\\'.$scaffold['model'];
     }
 
     public static function getScaffoldFromModelName($model_name){
         $model_name = str_replace("App\\",'',$model_name);
-        foreach ( config('scaffolds') as $data){
+        foreach ( self::getScaffolds() as $data){
             if ( $data['model'] == $model_name ){
                 return $data;
             }
