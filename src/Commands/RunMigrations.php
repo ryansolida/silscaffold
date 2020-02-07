@@ -132,11 +132,12 @@ class RunMigrations extends Command
 
                         $values[$k] = $v;
                     }
+                    $values['created_at'] = date("Y-m-d H:i:s");
+                    $values['updated_at'] = date("Y-m-d H:i:s");
                     \DB::table($data['table'])->insert($values);
                 }
 
-                $entry['created_at'] = date("Y-m-d H:i:s");
-                $entry['updated_at'] = date("Y-m-d H:i:s");
+                
             }
             
 
