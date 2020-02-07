@@ -31,8 +31,11 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
 
         $fields = SilScaffold::getFields($slug);
 
+
+        $edit_item = new stdClass();
         if ( $id ){
             $item = $model::find($id);
+            $edit_item->id = $id;
         } else {
             $item = new $model;
             foreach ($fields as $f){
@@ -40,11 +43,7 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
             }
         }
 
-        
-
-        $edit_item = new stdClass();
         foreach ($fields as $f){
-            $edit_item->id = $item->id;
             $edit_item->{$f->name} = $item->{$f->name};
             if ( $f->relationship ){
                 if ( $f->relationship->type == 'belongsTo' ){

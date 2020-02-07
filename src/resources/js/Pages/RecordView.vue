@@ -33,13 +33,7 @@
 <script>
 export default {
     props: ['item','slug','scaffold','fields'],
-    
     mounted(){
-        //this.$refs.input0.focus();
-        //this.$refs['input0'][0].focus();
-
-        
-
         console.log(this.item);
     },
     methods: {
@@ -56,9 +50,6 @@ export default {
             } else{
                 this.$inertia.post('/admin/'+this.slug+'/post', this.item)
             }
-
-            
-            
         }
     }
 }
