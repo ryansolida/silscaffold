@@ -124,10 +124,19 @@ class RunMigrations extends Command
                 }
 
                 foreach ($data['stub_data'] as $entry){
-                    $entry['created_at'] = date("Y-m-d H:i:s");
-                    $entry['updated_at'] = date("Y-m-d H:i:s");
-                    \DB::table($data['table'])->insert($entry);
+                    $values = [];
+                    foreach ($entry as $k=>$v){
+                        if ( stripos($v,'()') !== FALSE ){ //run this function 
+                            eval('$v = '.$v.';');
+                        }
+
+                        $values[$k] = $v;
+                    }
+                    \DB::table($data['table'])->insert($values);
                 }
+
+                $entry['created_at'] = date("Y-m-d H:i:s");
+                $entry['updated_at'] = date("Y-m-d H:i:s");
             }
             
 
