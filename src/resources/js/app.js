@@ -7,6 +7,9 @@
 import { InertiaApp } from '@inertiajs/inertia-vue'
 window.Vue = require('vue');
 Vue.use(InertiaApp)
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+Vue.use(VueAxios, axios)
 
 //Vue.component('RecordList', require('./Pages/RecordList.vue').default);
 var fields = ['Scaffold','Text','Select','Image','Repeater','ManySelect','Textarea','Wysiwyg'];
@@ -42,3 +45,5 @@ new Vue({
       },
     }),
   }).$mount(app)
+
+  window.axios = axios;

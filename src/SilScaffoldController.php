@@ -6,18 +6,44 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use stdClass;
-
+use Illuminate\Support\Facades\Auth;
 class SilScaffoldController extends \App\Http\Controllers\Controller
 {
     
     function __construct(){
         Inertia::setRootView('silscaffold::admin');
+        //$this->middleware('sil-scaffold-middleware');
+    }
+
+    public function loginForm(Request $request){
+        return Inertia::render('Login');
+    }
+
+    public function login(Request $request){
+        if ( ( $auth = Auth::guard('scaffold_user')->attempt([
+            'email'=>$request->email,
+            'password'=>$request->password
+        ]) ) ){
+            return redirect('/admin');
+        }
+        throw \Illuminate\Validation\ValidationException::withMessages([
+            'email' => ['Bad Username and Password'],
+        ]);
+    }
+
+    public function logout(Request $request){
+        Auth::guard('scaffold_user')->logout();
+        $request->session()->invalidate();
+    }
+
+    public function home(Request $request){
+        return Inertia::render('Home');
     }
 
     public function list($slug,Request $request){
         $model = SilScaffold::getModelPathFromSlug($slug);
         $items = $model::all();
-        
+    
         return Inertia::render('RecordList', [
             'items'=>$items,
             'slug'=>$slug,
@@ -142,4 +168,10 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
         $item->delete();
         return Redirect('/admin/'.$slug.'/list');
     }
+/*
+    protected function guard()
+    {
+        return Auth::guard('scaffold_user');
+    }
+    */
 }
