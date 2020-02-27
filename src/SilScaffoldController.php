@@ -69,6 +69,7 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
             }
         }
 
+        //dd($item);
         foreach ($fields as $f){
             $edit_item->{$f->name} = $item->{$f->name};
             if ( $f->relationship ){
@@ -84,9 +85,10 @@ class SilScaffoldController extends \App\Http\Controllers\Controller
                     $edit_item->{$f->name} = $item->{$f->name};
                 }
             }
-
-            if ( method_exists($item,'get'.ucfirst(\Str::camel($f->name)).'Attribute') ){
-                $edit_item->{$f->name} = $item->getAttributes()[$f->name];
+            
+            $get_attribute_method = 'get'.ucfirst(\Str::camel($f->name)).'Attribute';
+            if ( method_exists($item, $get_attribute_method) ){
+                $edit_item->{$f->name} = $item->$get_attribute_method();
             } else {
                 if ( $f->json ){
                     $edit_item->{$f->name} = json_decode($item->{$f->name});

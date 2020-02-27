@@ -13,7 +13,7 @@ class RunMigrations extends Command
      *
      * @var string
      */
-    protected $signature = 'silscaffold:migrate';
+    protected $signature = 'silscaffold:migrate {--only=}';
 
     /**
      * The console command description.
@@ -42,7 +42,14 @@ class RunMigrations extends Command
         $this->call('silscaffold:makemodels');
         $config = SilScaffold::getScaffolds();
         
-        foreach ($config as $data){
+        foreach ($config as $scaffold_name=>$data){
+
+            if ( $this->option('only') && $this->option('only') != $scaffold_name ){
+                //skip all others that don't match our 'only' option
+                continue;
+            }
+
+
             $scaffold = new SilScaffold($data['slug']);
             Schema::dropIfExists($scaffold->table);
             Schema::create($scaffold->table,function($table) use ($scaffold){

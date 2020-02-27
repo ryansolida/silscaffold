@@ -45,7 +45,7 @@ class SilScaffoldField {
         }
 
         $this->json = FALSE;
-        if ( $this->type == 'repeater'){
+        if ( $this->type == 'repeater' || $this->type == 'image'){
             $this->json = TRUE;
         }
         

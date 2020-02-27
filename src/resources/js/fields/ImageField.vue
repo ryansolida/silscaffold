@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-if="modelValue"><img :src="modelValue.thumbnail_url"></div>
-        <a href="javascript:;" @click="openMedia(field.name)">Open</a>
+        <a href="javascript:;" @click="openMedia(field.name)">Update Image</a>
     </div>
 </template>
 
@@ -9,11 +9,8 @@
 export default {
     props: ['field','item','index','model'],
     mounted(){
-        this.cloudinaryWidget = cloudinary.createUploadWidget({
-            cloudName: 'dx7f8fvcs', 
-            uploadPreset: 'maxmuscle',
-            apiKey: '227753428814697'
-        }, (error, result) => { 
+        //alert(window.cloudinaryConfig);
+        this.cloudinaryWidget = cloudinary.createUploadWidget(window.cloudinaryConfig, (error, result) => { 
             if (!error && result && result.event === "success") { 
                 this.widgetCallback(result.info);//console.log('Done! Here is the image info: ', result.info); 
             }

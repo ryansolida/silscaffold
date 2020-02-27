@@ -53,6 +53,10 @@ class SilScaffoldProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/public' => public_path('vendor/silscaffold'),
         ],'silscaffold-assets');
+
+        $this->publishes([
+            //__DIR__.'/resources'=>resource_path('vendor/silscaffold'),
+        ],'silscaffold-assets');
         
     }
 }

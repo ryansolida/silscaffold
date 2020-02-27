@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>  
     <link href="{{ mix('main.css', 'vendor/silscaffold') }}" rel="stylesheet" />
+    <script>
+      var cloudinaryConfig = {
+        cloudName: '<?=getenv('CLOUDINARY_CLOUD_NAME')?>',
+        uploadPreset: '<?=getenv('CLOUDINARY_UPLOAD_PRESET')?>',
+        apiKey: '<?=getenv('CLOUDINARY_API_KEY')?>'
+      }
+    </script>
     <script src="{{ mix('app.js', 'vendor/silscaffold') }}" defer></script>
   </head>
   <body>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <VueTrix v-model="modelValue" ref="trixEditor" placeholder="Enter content" localStorage/>
+        <VueTrix @input="updateParent" v-model="modelValue" srcContent="Test" ref="trixEditor" placeholder="Enter content" localStorage/>
     </div>
 </template>
 
@@ -18,7 +18,17 @@ export default {
             e.classList.add('bg-white');
             e.style.background = '';
         })
-        
+    },
+    methods: {
+        updateParent(){
+            setTimeout(()=>{
+                if ( this.modelValue == '' ){
+                    this.modelValue = '<div></div>';
+                }
+                this.$emit('input',this.modelValue)
+                
+            },100);
+        }
     }
 }
 </script>

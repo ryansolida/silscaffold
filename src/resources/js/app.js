@@ -37,7 +37,7 @@ Vue.prototype.window = window
 const app = document.getElementById('app')
 
 
-new Vue({
+window.scaffoldApp = new Vue({
     render: h => h(InertiaApp, {
       props: {
         initialPage: JSON.parse(app.dataset.page),
