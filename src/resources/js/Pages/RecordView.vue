@@ -46,8 +46,10 @@ export default {
             var id = '';
             if ( this.item.id !== undefined ){
                 id = this.item.id;
+                console.log("Posting for update w/ id: "+id);
                 this.$inertia.post('/admin/'+this.slug+'/post/'+id, this.item)
             } else{
+                console.log("Posting for new record");
                 this.$inertia.post('/admin/'+this.slug+'/post', this.item)
             }
         }
