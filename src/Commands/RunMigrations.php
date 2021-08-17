@@ -51,7 +51,7 @@ class RunMigrations extends Command
 
 
             $scaffold = new SilScaffold($data['slug']);
-            Schema::dropIfExists($scaffold->table);
+            
             if ( !Schema::hasTable($scaffold->table) ) {
 
                 Schema::create($scaffold->table,function($table) use ($scaffold){
